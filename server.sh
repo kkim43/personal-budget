@@ -15,13 +15,6 @@ firewall-cmd --permanent --zone=public --add-port=3002/tcp
 firewall-cmd --permanent --zone=public --add-port=3003/tcp
 firewall-cmd --reload
 
-if command -v getenforce >/dev/null 2>&1 && [ "$(getenforce)" = "Enforcing" ]; then
-  for p in 3000 3001 3002 3003; do
-    semanage port -a -t http_port_t -p tcp "$p" 2>/dev/null || \
-    semanage port -m -t http_port_t -p tcp "$p" || true
-  done
-fi
-
 dnf -y makecache --refresh
 
 dnf -y module reset nodejs
